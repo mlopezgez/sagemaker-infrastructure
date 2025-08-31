@@ -129,27 +129,13 @@ resource "aws_s3_bucket_public_access_block" "model_bucket_pab" {
 resource "aws_sagemaker_notebook_instance" "ni" {
   name          = "mati-playground"
   role_arn      = aws_iam_role.role.arn
-  instance_type = "ml.t3.medium"
+  instance_type = "ml.g4dn.xlarge"
 
-  # Add lifecycle config for auto-stop (optional)
-  lifecycle_config_name = aws_sagemaker_notebook_instance_lifecycle_configuration.lc.name
+  volume_size = var.notebook_volume_size
 
   tags = {
     Name = "mati-playground"
   }
-}
-
-# Optional: Auto-stop configuration to save costs
-resource "aws_sagemaker_notebook_instance_lifecycle_configuration" "lc" {
-  name = "auto-stop-idle"
-
-  on_start = base64encode(<<EOF
-#!/bin/bash
-set -e
-# Install auto-stop script
-pip install sagemaker-studio-auto-shutdown-extension
-EOF
-  )
 }
 
 # Minimal custom policy if you want more restricted access
