@@ -129,7 +129,7 @@ resource "aws_s3_bucket_public_access_block" "model_bucket_pab" {
 resource "aws_sagemaker_notebook_instance" "ni" {
   name          = "mati-playground"
   role_arn      = aws_iam_role.role.arn
-  instance_type = "ml.g4dn.xlarge"
+  instance_type = "ml.g5.2xlarge"
 
   volume_size = var.notebook_volume_size
 
